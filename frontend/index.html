@@ -1,0 +1,314 @@
+<!-- frontend/index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sistema Web de Gestión de Sueño</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top-header">
+    <div class="logo">
+      <span class="logo-icon">😴</span>
+      <span class="logo-text">Gestión de Sueño</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#auth-section">Inicio</a>
+      <a href="#app-section">Mi panel</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Sistema Web de Gestión de Sueño</h1>
+    <p>Registra tus hábitos de sueño, analiza tus patrones y mejora tu descanso.</p>
+  </section>
+
+  <main>
+    <!-- Sección de autenticación -->
+    <section id="auth-section">
+      <div class="card">
+        <h2>Registro de usuario</h2>
+        <p class="card-subtitle">
+          Crea tu cuenta para comenzar a registrar tus noches de sueño.
+        </p>
+        <form id="formRegistro">
+          <div class="form-group">
+            <label for="registroNombre">Nombre</label>
+            <input type="text" id="registroNombre" required />
+          </div>
+          <div class="form-group">
+            <label for="registroCorreo">Correo</label>
+            <input type="email" id="registroCorreo" required />
+          </div>
+          <div class="form-group">
+            <label for="registroPassword">Contraseña</label>
+            <input type="password" id="registroPassword" required />
+          </div>
+          <div class="form-group">
+            <label for="registroCodigo">Código de acceso</label>
+            <input type="text" id="registroCodigo" required />
+            <p class="hint">
+              Usa <strong>SUENO123</strong> para usuario normal o <strong>ADMIN123</strong> para administrador.
+            </p>
+          </div>
+          <button type="submit">Registrar</button>
+          <p class="mensaje" id="mensajeRegistro"></p>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Iniciar sesión</h2>
+        <p class="card-subtitle">
+          Accede a tu panel para consultar y registrar tu descanso.
+        </p>
+        <form id="formLogin">
+          <div class="form-group">
+            <label for="loginCorreo">Correo</label>
+            <input type="email" id="loginCorreo" required />
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Contraseña</label>
+            <input type="password" id="loginPassword" required />
+          </div>
+          <button type="submit">Entrar</button>
+          <p class="mensaje" id="mensajeLogin"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Sección para usuario autenticado -->
+    <section id="app-section" class="oculto">
+      <div class="barra-usuario">
+        <p id="textoUsuario"></p>
+        <button id="btnCerrarSesion">Cerrar sesión</button>
+      </div>
+
+      <!-- Tarjeta de resumen -->
+      <div class="card resumen-card">
+        <div class="resumen-header">
+          <div>
+            <h2>Resumen de sueño</h2>
+            <p id="resumenRango" class="resumen-subtitulo">Últimos 7 días</p>
+          </div>
+          <div class="resumen-controls">
+            <label for="resumenDias">Rango:</label>
+            <select id="resumenDias">
+              <option value="7">7 días</option>
+              <option value="30">30 días</option>
+              <option value="90">90 días</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="resumen-grid">
+          <div class="resumen-item">
+            <span class="resumen-label">Horas promedio</span>
+            <span id="resumenHoras" class="resumen-value">--</span>
+          </div>
+          <div class="resumen-item">
+            <span class="resumen-label">Calidad promedio</span>
+            <span id="resumenCalidad" class="resumen-value">--</span>
+          </div>
+          <div class="resumen-item">
+            <span class="resumen-label">Registros</span>
+            <span id="resumenTotal" class="resumen-value">--</span>
+          </div>
+          <div class="resumen-item">
+            <span class="resumen-label">Días con cafeína</span>
+            <span id="resumenCafeina" class="resumen-value">--</span>
+          </div>
+          <div class="resumen-item">
+            <span class="resumen-label">Pantallas (prom.)</span>
+            <span id="resumenPantallas" class="resumen-value">--</span>
+          </div>
+          <div class="resumen-item">
+            <span class="resumen-label">Actividad dominante</span>
+            <span id="resumenActividad" class="resumen-value">--</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- Formulario de registro de sueño -->
+        <div class="card">
+          <h2>Registrar sueño</h2>
+          <p class="card-subtitle">
+            Registra cada noche para generar un historial detallado de tus hábitos.
+          </p>
+          <form id="formRegistroSueno">
+            <div class="form-group">
+              <label for="fecha">Fecha</label>
+              <input type="date" id="fecha" required />
+            </div>
+
+            <div class="form-group">
+              <label for="horaAcostarse">
+                Hora de acostarse
+                <span class="hint">(formato 24 h, ej. 23:30)</span>
+              </label>
+              <input type="text" id="horaAcostarse" placeholder="23:30" required />
+            </div>
+
+            <div class="form-group">
+              <label for="horaDespertar">
+                Hora de despertar
+                <span class="hint">(ej. 07:00)</span>
+              </label>
+              <input type="text" id="horaDespertar" placeholder="07:00" required />
+            </div>
+
+            <div class="form-group">
+              <label for="despertares">Despertares nocturnos</label>
+              <input type="number" id="despertares" min="0" value="0" />
+            </div>
+            <div class="form-group">
+              <label for="calidad">Calidad del sueño (1 - 5)</label>
+              <input type="number" id="calidad" min="1" max="5" value="3" />
+            </div>
+            <div class="form-group">
+              <label for="cafeina">¿Consumiste cafeína?</label>
+              <select id="cafeina">
+                <option value="0">No</option>
+                <option value="1">Sí</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="pantallas">Minutos de pantallas antes de dormir</label>
+              <input type="number" id="pantallas" min="0" value="0" />
+            </div>
+            <div class="form-group">
+              <label for="actividad">Actividad física</label>
+              <select id="actividad">
+                <option value="baja">Baja</option>
+                <option value="media">Media</option>
+                <option value="alta">Alta</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="nota">Nota / comentario (opcional)</label>
+              <textarea
+                id="nota"
+                rows="2"
+                placeholder="Ejemplo: Me costó dormir por estrés, o dormí muy bien."
+              ></textarea>
+            </div>
+
+            <button type="submit" id="btnGuardarRegistro">Guardar registro</button>
+            <p class="mensaje" id="mensajeSueno"></p>
+          </form>
+        </div>
+
+        <!-- Tabla de registros -->
+        <div class="card">
+          <h2>Mis registros de sueño</h2>
+          <p class="card-subtitle">
+            Consulta tu historial para identificar patrones y áreas de mejora.
+          </p>
+
+          <div class="table-toolbar">
+            <div class="search-group">
+              <label for="buscadorRegistros">Buscar:</label>
+              <input
+                type="text"
+                id="buscadorRegistros"
+                placeholder="Filtra por fecha, horas, calidad, actividad o nota..."
+              />
+            </div>
+            <button type="button" id="btnDescargarCSV">
+              Descargar registros (CSV)
+            </button>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Acostarse</th>
+                  <th>Despertar</th>
+                  <th>Horas dormidas</th>
+                  <th>Calidad</th>
+                  <th>Cafeína</th>
+                  <th>Pantallas (min)</th>
+                  <th>Actividad</th>
+                  <th>Nota</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaRegistros">
+                <!-- Aquí se insertan filas por JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gestión de archivos -->
+      <div class="card archivos-card">
+        <h2>Archivos de seguimiento (PDF / Excel)</h2>
+        <p class="card-subtitle">
+          Sube reportes o plantillas relacionadas con tu sueño y consérvalas asociadas a tu usuario.
+        </p>
+
+        <form id="formArchivos" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="inputArchivo">Selecciona un archivo (PDF, Excel o CSV)</label>
+            <input type="file" id="inputArchivo" accept=".pdf,.xls,.xlsx,.csv" required />
+          </div>
+          <button type="submit">Subir archivo</button>
+          <p class="mensaje" id="mensajeArchivos"></p>
+        </form>
+
+        <div class="table-wrapper" style="margin-top: 10px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Fecha de subida</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaArchivos">
+              <!-- filas generadas por JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Panel de administración (solo para rol admin) -->
+      <div id="admin-section" class="card oculto">
+        <h2>Panel de administración</h2>
+        <p class="card-subtitle">
+          Solo visible para usuarios con rol administrador. Aquí puedes revisar y gestionar los usuarios registrados.
+        </p>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Creado en</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaUsuariosAdmin">
+              <!-- filas generadas por JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Proyecto: Sistema web para gestión de hábitos de sueño – Ingeniería Biomédica</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
